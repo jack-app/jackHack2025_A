@@ -36,16 +36,20 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
   const images = [CutieRabbitHammerUp, CutieRabbitHammerDown];
+  const setLoading = () => {
+    return setIsLoading(false);
+  };
   const handleIconClick = () => {
     setMode('idle');
-    // setIconPosition(null);
     setIsLoading(true);
-    chrome.runtime.sendMessage({
-      type: 'POPTURN',
-      data: {
-        selectedText: selectedText,
-      },
-    });
+    // chrome.runtime.sendMessage({
+    //   type: 'POPTURN',
+    //   data: {
+    //     selectedText: selectedText,
+    //   },
+    // });
+    setTimeout(setLoading, 5000);
+    // setIconPosition(null);
   };
 
   useEffect(() => {
@@ -61,6 +65,8 @@ const App = () => {
         range.insertNode(document.createTextNode(newText));
 
         selection.removeAllRanges(); // ハイライト解除
+        //返ってきたらLoadingをfalseにする
+        setIsLoading(false);
       }
     });
   }, []);
@@ -111,8 +117,8 @@ const App = () => {
         <div
           style={{
             position: 'absolute',
-            left: window.scrollX + iconPosition.x - 10,
-            top: window.scrollY + iconPosition.y - 100,
+            left: iconPosition.x - 10,
+            top: iconPosition.y - 100,
             zIndex: 2147483550,
           }}>
           <img src={images[imageIndex]} alt="" width="200px" height="200px" />
