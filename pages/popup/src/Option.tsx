@@ -4,7 +4,7 @@ import { useStorage, withErrorBoundary, withSuspense } from '@extension/shared';
 const Option = () => {
   return (
     <>
-      <div>option</div>
+      <div>ゆたん担当</div>
     </>
   );
 };
