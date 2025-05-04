@@ -7,10 +7,12 @@ export interface IconProps {
 
 export const Icon = (props: IconProps) => {
   return (
-    <Tooltip title="選択したテキストを翻訳" placement="top" arrow>
-      <IconButton onClick={props.handleClick} size="small">
-        <Avatar src={CutieRabbit} sx={{ width: 48, height: 48, bgcolor: 'white' }} />
-      </IconButton>
-    </Tooltip>
+    <>
+      <Tooltip title="選択したテキストを翻訳" placement="top" arrow>
+        <IconButton onClick={props.handleClick} size="small">
+          <Avatar src={CutieRabbit} sx={{ width: 200, height: 200, bgcolor: 'white' }} />
+        </IconButton>
+      </Tooltip>
+    </>
   );
 };

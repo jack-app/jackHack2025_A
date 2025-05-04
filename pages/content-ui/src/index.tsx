@@ -6,6 +6,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import type {} from '@mui/material/themeCssVarsAugmentation';
 import { ClickAwayListener } from '@mui/material';
 import { Icon } from './Icon';
+import CutieRabbitHammerUp from '../images/CutieRabbitHammerUp.png';
+import CutieRabbitHammerDown from '../images/CutieRabbitHammerDown.png';
 
 const root = document.createElement('chrome-extension-boilerplate-react-vite-content-view-root');
 root.style.zIndex = '2147483647';
@@ -31,10 +33,13 @@ const App = () => {
   const [rect, setRect] = useState<DOMRect | null>(null);
   const [iconPosition, setIconPosition] = useState<{ x: number; y: number } | null>(null);
   const [selectedText, setSelectedText] = useState<string>('');
-
+  const [isLoading, setIsLoading] = useState(false);
+  const [imageIndex, setImageIndex] = useState(0);
+  const images = [CutieRabbitHammerUp, CutieRabbitHammerDown];
   const handleIconClick = () => {
     setMode('idle');
-    setIconPosition(null);
+    // setIconPosition(null);
+    setIsLoading(true);
     chrome.runtime.sendMessage({
       type: 'POPTURN',
       data: {
@@ -77,6 +82,16 @@ const App = () => {
     return () => document.removeEventListener('mouseup', handleMouseUp);
   }, [mode]);
 
+  useEffect(() => {
+    if (!isLoading) return;
+
+    const intervalId = setInterval(() => {
+      setImageIndex(prev => (prev === 0 ? 1 : 0));
+    }, 500);
+
+    return () => clearInterval(intervalId);
+  }, [isLoading]);
+
   return (
     <>
       {mode === 'icon' && iconPosition !== null && (
@@ -91,6 +106,17 @@ const App = () => {
             <Icon handleClick={handleIconClick} />
           </div>
         </ClickAwayListener>
+      )}
+      {isLoading == true && iconPosition !== null && (
+        <div
+          style={{
+            position: 'absolute',
+            left: window.scrollX + iconPosition.x - 10,
+            top: window.scrollY + iconPosition.y - 100,
+            zIndex: 2147483550,
+          }}>
+          <img src={images[imageIndex]} alt="" width="200px" height="200px" />
+        </div>
       )}
     </>
   );
