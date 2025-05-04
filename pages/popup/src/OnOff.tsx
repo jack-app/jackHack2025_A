@@ -4,7 +4,7 @@ import { useStorage, withErrorBoundary, withSuspense } from '@extension/shared';
 const OnOff = () => {
   return (
     <>
-      <div>onoff</div>
+      <div>Ondesu</div>
     </>
   );
 };
