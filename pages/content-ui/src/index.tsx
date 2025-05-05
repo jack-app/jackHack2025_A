@@ -36,7 +36,7 @@ const App = () => {
     setMode('idle');
     setIconPosition(null);
     chrome.runtime.sendMessage({
-      type: 'POPTURN',
+      type: 'DETECT_NEGATIVE',
       data: {
         selectedText: selectedText,
       },
@@ -45,8 +45,8 @@ const App = () => {
 
   useEffect(() => {
     chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-      if (message.type === 'REPLACE_TEXT') {
-        const newText = message.data.newText;
+      if (message.type === 'IS_NEGATIVE') {
+        const newText = message.data.isNegative ? 'ポジティブな内容に変換します' : 'ポジティブな内容です';
 
         const selection = window.getSelection();
         if (!selection || selection.rangeCount === 0) return;
