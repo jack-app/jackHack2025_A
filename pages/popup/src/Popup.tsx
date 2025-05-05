@@ -5,11 +5,11 @@ import OnOff from './OnOff';
 
 const Popup = () => {
   return (
-    <>
+    <div className="haikei">
       <div>popup</div>
       <Option />
       <OnOff />
-    </>
+    </div>
   );
 };
 
