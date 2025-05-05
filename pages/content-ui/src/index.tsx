@@ -36,9 +36,16 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
   const images = [CutieRabbitHammerUp, CutieRabbitHammerDown];
+  // const Position: [{ x: number; y: number }] = [{ x: 0, y: 0 }];
+  const [position, setPosition] = useState<Array<{ x: number; y: number }>>([]);
+
   const setLoading = () => {
-    return setIsLoading(false);
+    setIsLoading(false);
+    setIconPosition(null);
+    setPosition([]);
+    return;
   };
+
   const handleIconClick = () => {
     setMode('idle');
     setIsLoading(true);
@@ -78,8 +85,11 @@ const App = () => {
         setSelectedText(selection.toString());
         const rect = selection.getRangeAt(0).getBoundingClientRect();
         setRect(rect);
-        setIconPosition({ x: rect.right, y: rect.bottom });
+        setIconPosition({ x: window.scrollX + rect.right, y: window.scrollY + rect.bottom });
         setMode('icon');
+      }
+      if (iconPosition !== null) {
+        setPosition(prev => [...prev, iconPosition]);
       }
     };
     if (mode !== 'dialog') {
@@ -90,14 +100,14 @@ const App = () => {
 
   useEffect(() => {
     if (!isLoading) return;
-
+    //500をGeminiのレスポンスによって変える
     const intervalId = setInterval(() => {
       setImageIndex(prev => (prev === 0 ? 1 : 0));
     }, 500);
 
     return () => clearInterval(intervalId);
   }, [isLoading]);
-
+  console.log(position);
   return (
     <>
       {mode === 'icon' && iconPosition !== null && (
@@ -105,25 +115,30 @@ const App = () => {
           <div
             style={{
               position: 'absolute',
-              left: window.scrollX + iconPosition.x + 30,
-              top: window.scrollY + iconPosition.y - 50,
-              zIndex: 2147483550,
+              left: iconPosition.x + 30,
+              top: iconPosition.y - 50,
+              zIndex: 1,
             }}>
             <Icon handleClick={handleIconClick} />
           </div>
         </ClickAwayListener>
       )}
-      {isLoading == true && iconPosition !== null && (
-        <div
-          style={{
-            position: 'absolute',
-            left: iconPosition.x - 10,
-            top: iconPosition.y - 100,
-            zIndex: 2147483550,
-          }}>
-          <img src={images[imageIndex]} alt="" width="200px" height="200px" />
-        </div>
-      )}
+      {isLoading == true &&
+        iconPosition !== null &&
+        position.map((position, index) => {
+          return (
+            <div
+              key={index}
+              style={{
+                position: 'absolute',
+                left: position.x - 10,
+                top: position.y - 100,
+                zIndex: 1,
+              }}>
+              <img src={images[imageIndex]} alt="" width="150px" height="150px" />
+            </div>
+          );
+        })}
     </>
   );
 };
