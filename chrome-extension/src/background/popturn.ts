@@ -1,38 +1,19 @@
-/*
-これは翻訳をする場合のコード（GASを使って、DeepL APIを使用している）
-ここをGeminiAPIを使って、ポジティブな文章に変更するコードに書き換えたい
-参考：https://zenn.dev/alvinvin/books/chrome_extension/viewer/chapter05
-参考：https://zenn.dev/alvinvin/books/chrome_extension/viewer/chapter09
-*/
+import { GoogleGenAI } from '@google/genai';
 
-const API_URL =
-  'https://script.google.com/macros/s/AKfycbwaZkRiYyf84rK_FyPYtAfLVUfJaNP51QnXzKAxz0lFaTv9JVSUUpjVJK59X247el-m/exec';
+const ai = new GoogleGenAI({
+  apiKey: process.env.CEB_API_KEY as string,
+});
 
-export async function popturn(text: string, targetLang: string): Promise<string> {
-  const headers: Record<string, string> = {
-    'Content-Type': 'application/json',
-    // Authorization: `DeepL-Auth-Key ${API_KEY}`, // DeepL API を使用する場合のみ
+export async function popturn(text: string): Promise<string> {
+  // リクエストを組み立て
+  const req = {
+    model: 'gemini-2.0-flash',
+    contents: `「${text}」をポジティブな内容で漢文に変換してください。変換したものだけを出力してください。`,
   };
-  const requestBody = { text: [text], target_lang: targetLang };
 
-  try {
-    const response = await fetch(API_URL, {
-      method: 'POST',
-      headers: headers,
-      body: JSON.stringify(requestBody),
-      mode: 'cors',
-    });
-    if (!response.ok) {
-      throw new Error(`Translation API request failed with status: ${response.status}`);
-    }
-    const data = await response.json();
-    if (!data.translations || !Array.isArray(data.translations) || data.translations.length === 0) {
-      throw new Error('Invalid response from Translation API');
-    }
+  // 実際の API 呼び出し
+  const res = await ai.models.generateContent(req);
 
-    return data.translations[0].text;
-  } catch (error) {
-    console.error('Translation Error:', error);
-    return '';
-  }
+  // 結果のテキストを返す
+  return res.text ?? '';
 }
