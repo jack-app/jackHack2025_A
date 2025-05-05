@@ -122,7 +122,7 @@ const App = () => {
       if (!text) return;
 
       const origRange = selection.getRangeAt(0);
-      const range = origRange.cloneRange(); // ← cloneRange して保存
+      const range = origRange.cloneRange();
       const rect = range.getBoundingClientRect();
       const position = {
         x: window.scrollX + rect.right,
@@ -212,6 +212,8 @@ const App = () => {
           {selection.mode === 'icon' && !selection.isLoading && (
             <ClickAwayListener onClickAway={() => handleClickAway(selection.id)} mouseEvent="onMouseDown">
               <div
+                onMouseDown={e => e.stopPropagation()}
+                onMouseUp={e => e.stopPropagation()}
                 style={{
                   position: 'absolute',
                   left: selection.position.x + 30,
