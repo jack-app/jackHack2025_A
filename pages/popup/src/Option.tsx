@@ -1,12 +1,30 @@
 import '@src/Option.css';
-import { useStorage, withErrorBoundary, withSuspense } from '@extension/shared';
-import { useState } from 'react';
-const Option = () => {
-  const [isPushed, setIsPushed] = useState<number | null>(null); // クリックされたボタンのインデックスを管理
+import { withErrorBoundary, withSuspense } from '@extension/shared';
+import { useState, useEffect } from 'react';
+// ここで先ほど作成した useModeStorage をインポート
+import { useModeStorage, UseMode } from '@extension/storage';
 
-  const handleClick = (index: number) => {
-    setIsPushed(isPushed === index ? null : index); // 既にクリックされている場合はnullにしてリセット、他は新しいインデックスに設定
+const Option = () => {
+  // ストレージからスナップショットを取得し、なければデフォルトの 0 を使う
+  const [isPushed, setIsPushed] = useState<UseMode>(useModeStorage.getSnapshot() ?? 0);
+
+  const handleClick = (index: UseMode) => {
+    // 同じボタンを押したらモードを 0 に戻し、そうでなければ押したボタンの index
+    const newMode: UseMode = isPushed === index ? 0 : index;
+    setIsPushed(newMode);
+    useModeStorage.set(newMode);
   };
+
+  useEffect(() => {
+    // マウント時にストレージから読み込み
+    useModeStorage.get().then(setIsPushed);
+    // 変更通知にも反応して state を更新
+    const unsubscribe = useModeStorage.subscribe(() => {
+      useModeStorage.get().then(setIsPushed);
+    });
+    return () => unsubscribe();
+  }, []);
+
   return (
     <div className="buttons">
       <button className={`yuruyuru ${isPushed === 0 ? 'clicked' : ''}`} type="button" onClick={() => handleClick(0)}>
