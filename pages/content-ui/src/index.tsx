@@ -264,12 +264,27 @@ const App: React.FC = () => {
       // 初回に要素が追加されたら初期ウィンドウ開始
       startInitialWindow();
 
-      for (const outer of candidates) {
+      for (let i = 0; i < candidates.length; i++) {
+        const outer = candidates[i];
         const qid = outer.dataset.qid;
         // 初期既存のQIDはスキップ
         if (!qid || qidList.includes(qid)) continue;
-        // 同時実行上限
-        if (pendingDetectsRef.current >= 10) break;
+        // 同時実行上限に達したら、残りの候補をすべて「既読」にマークしてスキップ
+        if (pendingDetectsRef.current >= 10) {
+          const remaining = candidates.slice(i);
+          const newQids: string[] = [];
+          for (const el of remaining) {
+            const skipQid = el.dataset.qid;
+            if (skipQid && !seenQidsRef.current.has(skipQid)) {
+              seenQidsRef.current.add(skipQid);
+              newQids.push(skipQid);
+            }
+          }
+          if (newQids.length) {
+            setQidList(prev => [...prev, ...newQids]);
+          }
+          break;
+        }
 
         // 初期バッチ期間中は登録のみ
         if (!initialWindowOverRef.current) {
