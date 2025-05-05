@@ -19,6 +19,8 @@ chrome.runtime.onMessage.addListener(async function (message, sender) {
   // ポジティブ変換
   if (message.type === 'POPTURN') {
     const selectedText = message.data.selectedText ?? '';
+    const selectionId = message.data.selectionId ?? '';
+
     const translatedText = await popturn(selectedText);
 
     if (sender.tab?.id !== undefined) {
@@ -26,6 +28,7 @@ chrome.runtime.onMessage.addListener(async function (message, sender) {
         type: 'REPLACE_TEXT',
         data: {
           newText: translatedText,
+          selectionId: selectionId,
         },
       });
     }

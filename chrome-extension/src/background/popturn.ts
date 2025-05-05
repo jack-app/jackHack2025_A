@@ -8,7 +8,7 @@ export async function popturn(text: string): Promise<string> {
   // リクエストを組み立て
   const req = {
     model: 'gemini-2.0-flash',
-    contents: `「${text}」をポジティブな内容で漢文に変換してください。変換したものだけを出力してください。`,
+    contents: `「${text}」を同じくらいな文字数のポジティブな文章に変換してください。必ず変換後の文章のみを返してください。`,
   };
 
   // 実際の API 呼び出し

@@ -1,14 +1,15 @@
-import { createRoot } from 'react-dom/client';
-import { useState, useEffect } from 'react';
-import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
+import { CacheProvider } from '@emotion/react';
+import { ClickAwayListener } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import type {} from '@mui/material/themeCssVarsAugmentation';
-import { ClickAwayListener, Typography } from '@mui/material';
-import { Icon } from './Icon';
-import CutieRabbitHammerUp from '../images/CutieRabbitHammerUp.png';
-import CutieRabbitHammerDown from '../images/CutieRabbitHammerDown.png';
+import { useEffect, useState } from 'react';
+import { createRoot } from 'react-dom/client';
+import { v4 as uuidv4 } from 'uuid';
 import CutieRabbit from '../images/CutieRabbit.png';
+import CutieRabbitHammerDown from '../images/CutieRabbitHammerDown.png';
+import CutieRabbitHammerUp from '../images/CutieRabbitHammerUp.png';
+import { Icon } from './Icon';
 
 const root = document.createElement('chrome-extension-boilerplate-react-vite-content-view-root');
 root.style.zIndex = '2147483647';
@@ -34,6 +35,7 @@ interface SelectionState {
   id: string;
   position: { x: number; y: number };
   selectedText: string;
+  range: Range;
   isLoading: boolean;
   mode: 'icon' | 'loading' | 'idle';
 }
@@ -43,14 +45,14 @@ const App = () => {
   const [selections, setSelections] = useState<SelectionState[]>([]);
   const [imageIndex, setImageIndex] = useState(0);
   const images = [CutieRabbitHammerUp, CutieRabbitHammerDown];
-  const [currentRect, setCurrentRect] = useState<DOMRect | null>(null);
 
   // 新しい選択を追加する関数
-  const addSelection = (position: { x: number; y: number }, text: string) => {
+  const addSelection = (position: { x: number; y: number }, text: string, range: Range) => {
     const newSelection: SelectionState = {
-      id: `selection-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      id: uuidv4(),
       position,
       selectedText: text,
+      range,
       isLoading: false,
       mode: 'icon',
     };
@@ -73,21 +75,13 @@ const App = () => {
   const handleIconClick = (id: string) => {
     updateSelection(id, { mode: 'loading', isLoading: true });
 
-    // ここで必要ならバックグラウンドスクリプトにメッセージを送信
-    // chrome.runtime.sendMessage({
-    //   type: 'POPTURN',
-    //   data: {
-    //     selectedText: selections.find(sel => sel.id === id)?.selectedText || '',
-    //     selectionId: id,
-    //   },
-    // });
-
-    // テスト用のタイムアウト
-    //5000はGeminiから返ってくる時間に変える
-    setTimeout(() => {
-      // 処理が完了したら選択を削除する
-      removeSelection(id);
-    }, 5000);
+    chrome.runtime.sendMessage({
+      type: 'POPTURN',
+      data: {
+        selectedText: selections.find(sel => sel.id === id)?.selectedText || '',
+        selectionId: id,
+      },
+    });
   };
 
   // 選択位置の外側をクリックしたときの処理
@@ -97,43 +91,45 @@ const App = () => {
   };
 
   useEffect(() => {
-    chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-      if (message.type === 'REPLACE_TEXT') {
-        const newText = message.data.newText;
-        const selectionId = message.data.selectionId;
+    const handleMessage = (message: any, sender: chrome.runtime.MessageSender, sendResponse: (resp?: any) => void) => {
+      if (message.type !== 'REPLACE_TEXT') return;
+      const { newText, selectionId } = message.data;
+      const sel = selections.find(s => s.id === selectionId);
+      if (!sel) return;
 
-        const selection = window.getSelection();
-        if (!selection || selection.rangeCount === 0) return;
+      // sel.range に保存された範囲を使って置換
+      sel.range.deleteContents();
+      sel.range.insertNode(document.createTextNode(newText));
 
-        const range = selection.getRangeAt(0);
-        range.deleteContents();
-        range.insertNode(document.createTextNode(newText));
-
-        selection.removeAllRanges(); // ハイライト解除
-
-        // 指定されたIDの選択を削除
-        if (selectionId) {
-          removeSelection(selectionId);
-        }
+      if (selections.length === 1) {
+        window.getSelection()?.removeAllRanges();
       }
-    });
-  }, []);
+
+      removeSelection(selectionId);
+    };
+
+    chrome.runtime.onMessage.addListener(handleMessage);
+    return () => {
+      chrome.runtime.onMessage.removeListener(handleMessage);
+    };
+  }, [selections]);
 
   useEffect(() => {
     const handleMouseUp = () => {
       const selection = window.getSelection();
-      if (selection && selection.toString().trim().length > 0) {
-        const selectedText = selection.toString();
-        const rect = selection.getRangeAt(0).getBoundingClientRect();
-        setCurrentRect(rect);
+      if (!selection || selection.rangeCount === 0) return;
+      const text = selection.toString().trim();
+      if (!text) return;
 
-        // 新しい選択位置を追加
-        const position = {
-          x: window.scrollX + rect.right,
-          y: window.scrollY + rect.bottom,
-        };
-        addSelection(position, selectedText);
-      }
+      const origRange = selection.getRangeAt(0);
+      const range = origRange.cloneRange(); // ← cloneRange して保存
+      const rect = range.getBoundingClientRect();
+      const position = {
+        x: window.scrollX + rect.right,
+        y: window.scrollY + rect.bottom,
+      };
+
+      addSelection(position, text, range);
     };
 
     document.addEventListener('mouseup', handleMouseUp);
@@ -238,16 +234,6 @@ const App = () => {
                   zIndex: 1,
                 }}>
                 <img src={images[imageIndex]} alt="" width="150px" height="150px" />
-              </div>
-              <div
-                style={{
-                  position: 'absolute',
-                  left: selection.position.x - 10,
-                  top: selection.position.y + 15,
-                  zIndex: 1,
-                }}>
-                {/* ここは消してもらって大丈夫です */}
-                <Typography variant="h4">{selection.selectedText}</Typography>
               </div>
             </>
           )}
