@@ -69,7 +69,7 @@ const App: React.FC = () => {
     initialWindowOverRef.current = false;
     setTimeout(() => {
       initialWindowOverRef.current = true;
-    }, 3000);
+    }, 1000);
   };
 
   /* ─────────── SPA ナビゲーションでリセット ─────────── */
