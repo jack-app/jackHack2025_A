@@ -6,17 +6,22 @@
   background-color: #ccff00;
   color: #ff9911;
   box-shadow: 0 7px 0 rgb(60, 114, 6);
-  border-radius: 0.25em;
+  border-radius: 2em;
   padding: 0.05em 0.05em 0.05em;
   line-height: 1;
   display: inline-block;
   cursor: pointer;
 }
+.yuruyuru.clicked {
+  transform: translateY(4px);
+  background-color: rgb(184, 215, 7); 
+  box-shadow: 0 3px 0 rgb(73, 101, 2);
+}
 .hutuu {
   background-color: #ff9911;
   color: #ff9911;
   box-shadow: 0 7px 0 rgb(135, 94, 6);
-  border-radius: 0.25em;
+  border-radius: 2em;
   padding: 0.05em 0.05em 0.05em;
   line-height: 1;
   display: inline-block;
@@ -24,14 +29,24 @@
   margin-left: 5px;
   margin-right: 5px;
 }
+.hutuu.clicked {
+  transform: translateY(4px);
+  background-color: rgb(156, 95, 10); 
+  box-shadow: 0 3px 0 rgb(76, 53, 5);
+}
 .gitigiti {
   background-color: #ff3300;
   color: #ff9911;
   box-shadow: 0 7px 0 rgb(118, 32, 8);
-  border-radius: 0.25em;
+  border-radius: 2em;
   padding: 0.05em 0.05em 0.05em;
   line-height: 1;
   display: inline-block;
   cursor: pointer;
+}
+.gitigiti.clicked {
+  transform: translateY(4px);
+  background-color: rgb(140, 37, 37); 
+  box-shadow: 0 3px 0 rgb(118, 32, 8);
 }
 

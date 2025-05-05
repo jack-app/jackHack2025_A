@@ -2,38 +2,36 @@ import '@src/Option.css';
 import { useStorage, withErrorBoundary, withSuspense } from '@extension/shared';
 import { useState } from 'react';
 const Option = () => {
-  const [isPushed, setIsPushed] = useState<boolean>(false);
+  const [isPushed, setIsPushed] = useState<number | null>(null); // クリックされたボタンのインデックスを管理
+
+  const handleClick = (index: number) => {
+    setIsPushed(isPushed === index ? null : index); // 既にクリックされている場合はnullにしてリセット、他は新しいインデックスに設定
+  };
   return (
     <div className="buttons">
-      <button
-        id="push1"
-        onClick={() => setIsPushed(!isPushed)}
-        className="yuruyuru"
-        type="button"
-        name="name"
-        value="value">
-        {/* // isPushedの真偽値で表示するかどうかを切り替える 
-     {isPushed && (<img
-       src="c:/Users/shuni/Downloads/ChatGPT_Image_2025年5月5日_11_41_10-removebg-preview.png"
-       width="70"
-       height="70"
-       alt="ボタン画像"
-      />)} */}
-      </button>
-
-      <button className="hutuu" type="button" name="name" value="value">
+      <button className={`yuruyuru ${isPushed === 0 ? 'clicked' : ''}`} type="button" onClick={() => handleClick(0)}>
         <img
-          src="c:/Users/shuni/Downloads/ChatGPT_Image_2025年5月5日_11_41_10-removebg-preview.png"
-          width="70"
-          height="70"
+          src="c:/Users/shuni/Downloads/ChatGPT Image 2025年5月5日 21_41_16.png"
+          width="60"
+          height="60"
           alt="ボタン画像"
         />
       </button>
-      <button className="gitigiti" type="button" name="name" value="value">
+
+      <button className={`hutuu ${isPushed === 1 ? 'clicked' : ''}`} type="button" onClick={() => handleClick(1)}>
         <img
           src="c:/Users/shuni/Downloads/ChatGPT_Image_2025年5月5日_11_41_10-removebg-preview.png"
-          width="70"
-          height="70"
+          width="60"
+          height="60"
+          alt="ボタン画像"
+        />
+      </button>
+
+      <button className={`gitigiti ${isPushed === 2 ? 'clicked' : ''}`} type="button" onClick={() => handleClick(2)}>
+        <img
+          src="c:/Users/shuni/Downloads/ChatGPT Image 2025年5月5日 21_49_08.png"
+          width="60"
+          height="60"
           alt="ボタン画像"
         />
       </button>
