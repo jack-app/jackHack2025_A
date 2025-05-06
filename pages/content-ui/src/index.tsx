@@ -195,31 +195,36 @@ const App: React.FC = () => {
         return;
       }
 
-      /* manual replace */
+      /* manual replace (2.5秒待ってから実行) */
       if (message.type === 'MANUAL_REPLACE_TEXT') {
         const { selectionId, newText } = message.data;
-        const manual = selections.find(s => s.id === selectionId);
-        if (manual?.range && manual.range.commonAncestorContainer.isConnected) {
-          manual.range.deleteContents();
-          manual.range.insertNode(document.createTextNode(newText));
-        }
-        window.getSelection()?.removeAllRanges();
-        removeSel(selectionId);
+        setTimeout(() => {
+          const manual = selections.find(s => s.id === selectionId);
+          if (manual?.range && manual.range.commonAncestorContainer.isConnected) {
+            manual.range.deleteContents();
+            manual.range.insertNode(document.createTextNode(newText));
+          }
+          window.getSelection()?.removeAllRanges();
+          removeSel(selectionId);
+        }, 2500);
         return;
       }
 
-      /* auto replace */
+      /* auto replace (2.5秒待ってから実行) */
       if (message.type === 'AUTO_REPLACE_TEXT') {
         const { selectionId: qid, newText } = message.data;
-        const outer = document.querySelector<HTMLElement>(`div[data-testid="question"][data-qid="${qid}"]`);
-        const spanElement = outer?.querySelector<HTMLSpanElement>(spanSelector);
-        if (spanElement) {
-          spanElement.innerText = newText;
-        }
-        removeSel(qid);
+        setTimeout(() => {
+          const outer = document.querySelector<HTMLElement>(`div[data-testid="question"][data-qid="${qid}"]`);
+          const spanElement = outer?.querySelector<HTMLSpanElement>(spanSelector);
+          if (spanElement) {
+            spanElement.innerText = newText;
+          }
+          removeSel(qid);
+        }, 2500);
         return;
       }
     };
+
     chrome.runtime.onMessage.addListener(handler);
     return () => chrome.runtime.onMessage.removeListener(handler);
   }, [selections]);
@@ -269,6 +274,15 @@ const App: React.FC = () => {
         const qid = outer.dataset.qid;
         // 初期既存のQIDはスキップ
         if (!qid || qidList.includes(qid)) continue;
+        // 無効な qid やすでに既読ならスキップ
+        if (seenQidsRef.current.has(qid)) continue;
+
+        if (!initialWindowOverRef.current) {
+          // 初期バッチ期間中は既読登録のみでスキップ
+          seenQidsRef.current.add(qid);
+          setQidList(prev => [...prev, qid]);
+          continue;
+        }
         // 同時実行上限に達したら、残りの候補をすべて「既読」にマークしてスキップ
         if (pendingDetectsRef.current >= 10) {
           const remaining = candidates.slice(i);
