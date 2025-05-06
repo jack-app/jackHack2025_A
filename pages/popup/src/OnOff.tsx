@@ -9,7 +9,7 @@ const OnOff = () => {
         // className="text-base text-pink-300 font-bold "
         className="moji">
         {' '}
-        ネガティブはきらい？
+        うさぎを召喚する？
       </span>
       {/* <button
           onClick={() => setChecked(!checked)}
