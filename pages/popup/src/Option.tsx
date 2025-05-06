@@ -1,10 +1,12 @@
 import '@src/Option.css';
-import { useStorage, withErrorBoundary, withSuspense } from '@extension/shared';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { withErrorBoundary, withSuspense } from '@extension/shared';
 import { Box, Stack, Typography } from '@mui/material';
 import NormalImage from '../src/images/normal.png';
 import YuruyuruImage from '../src/images/CutieRabbit.png';
 import GitigitiImage from '../src/images/gitigiti.png';
+import { UseMode, useModeStorage } from '@extension/storage';
+
 const Option = () => {
   // ストレージからスナップショットを取得し、なければデフォルトの 0 を使う
   const [isPushed, setIsPushed] = useState<UseMode>(useModeStorage.getSnapshot() ?? 0);
@@ -30,6 +32,7 @@ const Option = () => {
     <Stack sx={{ margin: '20px' }}>
       <Typography sx={{ textAlign: 'center' }}>どのくらい？</Typography>
       <Box sx={{ display: 'flex', justifyContent: 'center', padding: '10px', gap: '10px' }}>
+        {/* ゆるゆるボタン */}
         <Box>
           <button
             className={`yuruyuru ${isPushed === 0 ? 'clicked' : ''}`}
@@ -41,6 +44,7 @@ const Option = () => {
             ゆるゆる
           </Typography>
         </Box>
+        {/* ふつうボタン */}
         <Box>
           <button className={`hutuu ${isPushed === 1 ? 'clicked' : ''}`} type="button" onClick={() => handleClick(1)}>
             <img src={NormalImage} width="60" height="60" alt="ふつうボタン画像" />
@@ -49,6 +53,7 @@ const Option = () => {
             ふつう
           </Typography>
         </Box>
+        {/* ぎちぎちボタン */}
         <Box>
           <button
             className={`gitigiti ${isPushed === 2 ? 'clicked' : ''}`}
