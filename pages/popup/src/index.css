@@ -4,7 +4,7 @@
 
 body {
   width: 300px;
-  height: 260px;
+  height: 100%;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
     'Droid Sans', 'Helvetica Neue', sans-serif;
@@ -12,6 +12,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 
   position: relative;
+  background-color: #fff7f3;
 }
 
 code {
