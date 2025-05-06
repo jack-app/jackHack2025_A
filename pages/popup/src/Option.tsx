@@ -2,7 +2,9 @@ import '@src/Option.css';
 import { useStorage, withErrorBoundary, withSuspense } from '@extension/shared';
 import { useState } from 'react';
 import { Box, Stack, Typography } from '@mui/material';
-// import NormalImage from '';
+import NormalImage from '../src/images/normal.png';
+import YuruyuruImage from '../src/images/CutieRabbit.png';
+import GitigitiImage from '../src/images/gitigiti.png';
 const Option = () => {
   const [isPushed, setIsPushed] = useState<number | null>(null); // クリックされたボタンのインデックスを管理
 
@@ -18,7 +20,7 @@ const Option = () => {
             className={`yuruyuru ${isPushed === 0 ? 'clicked' : ''}`}
             type="button"
             onClick={() => handleClick(0)}>
-            {/* <img src="../images/normal.png" width="60" height="60" alt="ゆるゆるボタン画像" /> */}
+            <img src={YuruyuruImage} width="60" height="60" alt="ゆるゆるボタン画像" />
           </button>
           <Typography variant="body2" sx={{ paddingTop: '10px', textAlign: 'center' }}>
             ゆるゆる
@@ -26,7 +28,7 @@ const Option = () => {
         </Box>
         <Box>
           <button className={`hutuu ${isPushed === 1 ? 'clicked' : ''}`} type="button" onClick={() => handleClick(1)}>
-            {/* <img src={NormalImage} width="60" height="60" alt="ふつうボタン画像" /> */}
+            <img src={NormalImage} width="60" height="60" alt="ふつうボタン画像" />
           </button>
           <Typography variant="body2" sx={{ paddingTop: '10px', textAlign: 'center' }}>
             ふつう
@@ -37,12 +39,7 @@ const Option = () => {
             className={`gitigiti ${isPushed === 2 ? 'clicked' : ''}`}
             type="button"
             onClick={() => handleClick(2)}>
-            {/* <img
-              src="c:/Users/shuni/Downloads/ChatGPT Image 2025年5月5日 21_49_08.png"
-              width="60"
-              height="60"
-              alt="ぎちぎちボタン画像"
-            /> */}
+            <img src={GitigitiImage} width="60" height="60" alt="ぎちぎちボタン画像" />
           </button>
           <Typography variant="body2" sx={{ paddingTop: '10px', textAlign: 'center' }}>
             ぎちぎち
