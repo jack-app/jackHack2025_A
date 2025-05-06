@@ -26,7 +26,7 @@ Chrome 拡張機能を React + Vite + TypeScript で開発するためのボイ�
 ターミナルを開き、以下のコマンドを実行して、リポジトリをクローンします：
 
 ```bash
-git clone https://github.com/あなたのユーザー名/jackHack2025_A.git
+git clone git@github.com:jack-app/jackHack2025_A.git
 ```
 
 ### 2. プロジェクトディレクトリに移動
@@ -42,7 +42,7 @@ cd jackHack2025_A
 プロジェクトルートに `.env` ファイルを作成し、以下のように Gemini API キーを登録してください：
 
 ```env
-CEB_API_KEY="登録したgeminiapi key"
+CEB_API_KEY="登録した GeminiAPI key"
 ```
 
 Gemini API キーの取得方法については、以下のドキュメントをご参照ください：
