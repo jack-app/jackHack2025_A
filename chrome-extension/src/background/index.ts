@@ -34,10 +34,10 @@ chrome.runtime.onMessage.addListener(async (message, sender) => {
       isNegative = true;
     } else if (mode === 1) {
       // モード1: ネガティブ判定このまま
-      isNegative = await detectNegative(selectedText, 1);
+      isNegative = await detectNegative(selectedText);
     } else {
       // モード0: 明らかにネガティブなものだけ検出
-      isNegative = await detectNegative(selectedText, 2);
+      isNegative = false;
     }
 
     chrome.tabs.sendMessage(tabId, {
