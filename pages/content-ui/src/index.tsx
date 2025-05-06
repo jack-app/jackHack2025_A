@@ -195,7 +195,7 @@ const App: React.FC = () => {
         return;
       }
 
-      /* manual replace (2.5秒待ってから実行) */
+      /* manual replace (1.5秒待ってから実行) */
       if (message.type === 'MANUAL_REPLACE_TEXT') {
         const { selectionId, newText } = message.data;
         setTimeout(() => {
@@ -206,11 +206,11 @@ const App: React.FC = () => {
           }
           window.getSelection()?.removeAllRanges();
           removeSel(selectionId);
-        }, 2500);
+        }, 1500);
         return;
       }
 
-      /* auto replace (2.5秒待ってから実行) */
+      /* auto replace (1.5秒待ってから実行) */
       if (message.type === 'AUTO_REPLACE_TEXT') {
         const { selectionId: qid, newText } = message.data;
         setTimeout(() => {
@@ -220,7 +220,7 @@ const App: React.FC = () => {
             spanElement.innerText = newText;
           }
           removeSel(qid);
-        }, 2500);
+        }, 1500);
         return;
       }
     };
