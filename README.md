@@ -1,4 +1,4 @@
-# jackHack2025_A
+## jackHack2025\_A
 
 Chrome拡張機能として動作するプロジェクトです。
 
@@ -6,7 +6,7 @@ Chrome拡張機能として動作するプロジェクトです。
 
 このリポジトリは以下のテンプレートをベースに作成されています：
 
-[**Jonghakseo/chrome-extension-boilerplate-react-vite (v0.4.3)**](https://github.com/Jonghakseo/chrome-extension-boilerplate-react-vite/tree/0.4.3)  
+[**Jonghakseo/chrome-extension-boilerplate-react-vite (v0.4.3)**](https://github.com/Jonghakseo/chrome-extension-boilerplate-react-vite/tree/0.4.3)
 Chrome 拡張機能を React + Vite + TypeScript で開発するためのボイラープレートです。
 
 ## インストール手順
@@ -15,10 +15,11 @@ Chrome 拡張機能を React + Vite + TypeScript で開発するためのボイ�
 
 ### 前提条件
 
-- [Git](https://git-scm.com/)がインストールされていること
-- [Node.js](https://nodejs.org/)（v16以上推奨）がインストールされていること
-- [pnpm](https://pnpm.io/)がインストールされていること
-  - インストールされていない場合は、`npm install -g pnpm`でインストールできます
+* [Git](https://git-scm.com/)がインストールされていること
+* [Node.js](https://nodejs.org/)（v16以上推奨）がインストールされていること
+* [pnpm](https://pnpm.io/)がインストールされていること
+
+  * インストールされていない場合は、`npm install -g pnpm`でインストールできます
 
 ### 1. リポジトリのクローン
 
@@ -36,7 +37,20 @@ git clone https://github.com/あなたのユーザー名/jackHack2025_A.git
 cd jackHack2025_A
 ```
 
-### 3. 依存関係のインストール
+### 3. .env ファイルの作成と Gemini API キーの設定
+
+プロジェクトルートに `.env` ファイルを作成し、以下のように Gemini API キーを登録してください：
+
+```env
+CEB_API_KEY="登録したgeminiapi key"
+```
+
+Gemini API キーの取得方法については、以下のドキュメントをご参照ください：
+
+* [Google Cloud Generative AI (Gemini) API キーの取得方法](https://cloud.google.com/generative-ai/docs/getting-started)
+  サービスアカウントの作成とキー生成手順を含みます。
+
+### 4. 依存関係のインストール
 
 pnpmを使用して、必要なパッケージをインストールします：
 
@@ -44,7 +58,7 @@ pnpmを使用して、必要なパッケージをインストールします：
 pnpm install
 ```
 
-### 4. 開発サーバーの起動とビルド
+### 5. 開発サーバーの起動とビルド
 
 以下のコマンドで開発サーバーを起動し、拡張機能をビルドします：
 
@@ -53,11 +67,12 @@ pnpm dev
 ```
 
 このコマンドを実行すると：
-- プロジェクトがビルドされます
-- `dist`ディレクトリに拡張機能の実行ファイルが生成されます
-- ファイルの変更を監視し、変更があれば自動的に再ビルドされます
 
-### 5. Chrome拡張機能として読み込む
+* プロジェクトがビルドされます
+* `dist`ディレクトリに拡張機能の実行ファイルが生成されます
+* ファイルの変更を監視し、変更があれば自動的に再ビルドされます
+
+### 6. Chrome拡張機能として読み込む
 
 1. Google Chromeを開きます
 2. アドレスバーに `chrome://extensions/` と入力してEnterキーを押します
@@ -67,14 +82,13 @@ pnpm dev
 
 これで拡張機能がChromeに読み込まれ、ツールバーに拡張機能のアイコンが表示されるはずです。
 
-
 ## ライセンス
 
 本プロジェクトは [MIT License](LICENSE) の下で公開されています。
 
 ## Credits
 
-- テンプレート提供元: [Jonghakseo](https://github.com/Jonghakseo)  
-  リポジトリ: [chrome-extension-boilerplate-react-vite](https://github.com/Jonghakseo/chrome-extension-boilerplate-react-vite)  
+* テンプレート提供元: [Jonghakseo](https://github.com/Jonghakseo)
+  リポジトリ: [chrome-extension-boilerplate-react-vite](https://github.com/Jonghakseo/chrome-extension-boilerplate-react-vite)
   ライセンス: MIT License
-- 上記テンプレートをベースに、構成や機能をカスタマイズして本プロジェクトを作成しています。
+* 上記テンプレートをベースに、構成や機能をカスタマイズして本プロジェクトを作成しています。
