@@ -1,0 +1,67 @@
+.moji {
+    color: #FF90BB;
+    font-weight: bold;
+    font-family: 'Yomogi';
+    font-size: 20px;
+}
+
+
+.toggle-button-4 {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 50px;
+    height: 25px;
+    border-radius: 50px;
+    box-sizing: content-box;
+    background-color: #9b9c9b33;
+    cursor: pointer;
+    transition: background-color .4s;
+}
+
+.toggle-button-4:has(:checked) {
+    background-color: #00d5ff33;
+}
+
+.toggle-button-4::before {
+    position: absolute;
+    left: 5px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: #b2b2b2;
+    content: '';
+    transition: left .4s;
+    box-shadow:
+        inset 0 0 0 2px #000000,
+        /* 顔の輪郭 */
+        -8px -20px 0 -10px, #FFDFD4
+        /* 左耳 */
+        8px -20px 0 -10px #FFDFD4;
+    /* 右耳 */
+}
+
+.toggle-button-4:has(:checked)::before {
+    left: 25px;
+    background-color: #FFDFD4;
+}
+
+.toggle-button-4::after {
+    position: absolute;
+    left: 17px;
+    transform: translateX(-50%);
+    color: #fff;
+    font-weight: 600;
+    font-size: .8em;
+    content: 'スル！';
+    transition: left .4s;
+}
+
+.toggle-button-4:has(:checked)::after {
+    left: 38px;
+    content: 'No';
+}
+
+.toggle-button-4 input {
+    display: none;
+}
