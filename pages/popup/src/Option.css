@@ -1,0 +1,68 @@
+.buttons {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+.yuruyuru {
+  /* background-color: #ccff00; */
+  background-color: #ffcdb2;
+  /* color: #ff9911; */
+  /* box-shadow: 0 7px 0 rgb(60, 114, 6); */
+  box-shadow: 0 7px 0 #c7a28d;
+  border-radius: 2em;
+  padding: 0.05em 0.05em;
+  line-height: 1;
+  display: inline-block;
+  cursor: pointer;
+  width: 60px;
+  height: 60px;
+}
+.yuruyuru.clicked {
+  transform: translateY(4px);
+  /* background-color: rgb(184, 215, 7); */
+  background-color: #f8b58f;
+  /* box-shadow: 0 3px 0 rgb(73, 101, 2); */
+  box-shadow: 0 3px 0 #ecad89;
+}
+.hutuu {
+  /* background-color: #ff9911; */
+  background-color: #ffb4a2;
+  /* color: #ff9911; */
+  /* box-shadow: 0 7px 0 rgb(135, 94, 6); */
+  box-shadow: 0 7px 0 #d49788;
+  border-radius: 2em;
+  padding: 0.05em 0.05em 0.05em;
+  line-height: 1;
+  display: inline-block;
+  cursor: pointer;
+  width: 60px;
+  height: 60px;
+}
+.hutuu.clicked {
+  transform: translateY(4px);
+  /* background-color: rgb(156, 95, 10); */
+  background-color: #fdaa96;
+  /* box-shadow: 0 3px 0 rgb(76, 53, 5); */
+  box-shadow: 0 3px 0 #dd9583;
+}
+.gitigiti {
+  /* background-color: #ff3300; */
+  background-color: #e5989b;
+  /* color: #ff9911; */
+  /* box-shadow: 0 7px 0 rgb(118, 32, 8); */
+  box-shadow: 0 7px 0 #c28082;
+  border-radius: 2em;
+  padding: 0.05em 0.05em 0.05em;
+  line-height: 1;
+  display: inline-block;
+  cursor: pointer;
+  width: 60px;
+  height: 60px;
+}
+.gitigiti.clicked {
+  transform: translateY(4px);
+  /* background-color: rgb(140, 37, 37); */
+  background-color: #e48588;
+  /* box-shadow: 0 3px 0 rgb(118, 32, 8); */
+  box-shadow: 0 3px 0 #c27174;
+}

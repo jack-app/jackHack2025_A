@@ -23,10 +23,11 @@
   },
   "dependencies": {
     "@extension/env": "workspace:*",
+    "@extension/i18n": "workspace:*",
     "@extension/shared": "workspace:*",
     "@extension/storage": "workspace:*",
     "@extension/ui": "workspace:*",
-    "@extension/i18n": "workspace:*"
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@extension/hmr": "workspace:*",
