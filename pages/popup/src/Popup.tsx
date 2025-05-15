@@ -16,8 +16,11 @@ const Popup = () => {
         </IconButton>
       </Stack>
 
+      <div className="haikei">
+        <OnOff />
+      </div>
+
       <Option />
-      {/* <OnOff /> */}
     </>
   );
 };

@@ -1,37 +1,24 @@
 import '@src/OnOff.css';
-import { withErrorBoundary, withSuspense } from '@extension/shared';
-import { useState, useEffect } from 'react';
-// ストレージから boolean 値を保持する isUsed をインポート
-import { isUsed } from '@extension/storage';
-
+import { useStorage, withErrorBoundary, withSuspense } from '@extension/shared';
+import { useState } from 'react';
 const OnOff = () => {
-  // スナップショットまたはデフォルト false
-  const [isOn, setIsOn] = useState<boolean>(isUsed.getSnapshot() ?? false);
-
-  useEffect(() => {
-    // 初回マウント時にストレージ値を読み込む
-    isUsed.get().then(setIsOn);
-    // 外部からの変更にも反応
-    const unsubscribe = isUsed.subscribe(() => {
-      isUsed.get().then(setIsOn);
-    });
-    return () => unsubscribe();
-  }, []);
-
-  const handleToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.currentTarget.checked;
-    setIsOn(newValue);
-    // ストレージにも書き込み
-    isUsed.set(newValue);
-  };
-
+  const [checked, setChecked] = useState(false);
   return (
-    <div className="onoff-container">
-      <label className="switch">
-        <input type="checkbox" checked={isOn} onChange={handleToggle} />
-        <span className="slider" />
+    <div className="flex justify-between p-4 ">
+      <span
+        // className="text-base text-pink-300 font-bold "
+        className="moji">
+        {' '}
+        うさぎを召喚する？
+      </span>
+      {/* <button
+          onClick={() => setChecked(!checked)}
+          className="togurubotan"> 
+          
+        </button> */}
+      <label className="toggle-button-4">
+        <input type="checkbox" />
       </label>
-      <span className="status-label">{isOn ? 'ON' : 'OFF'}</span>
     </div>
   );
 };

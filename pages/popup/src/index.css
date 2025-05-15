@@ -10,7 +10,7 @@ body {
     'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
+    background-color:#FFF8E9;
   position: relative;
   background-color: #fff7f3;
 }
