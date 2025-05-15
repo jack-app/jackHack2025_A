@@ -9,16 +9,19 @@ const Popup = () => {
     window.close();
   };
   return (
-    <div className="haikei">
+    <>
       <Stack width="100%">
         <IconButton sx={{ marginLeft: 'auto' }} onClick={handleClick}>
           <CancelIcon />
         </IconButton>
       </Stack>
 
+      <div className="haikei">
+        <OnOff />
+      </div>
+
       <Option />
-      <OnOff />
-    </div>
+    </>
   );
 };
 
