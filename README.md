@@ -1,6 +1,12 @@
-## jackHack2025\_A
+# キャンセラビット（jackHack2025チームA）
 
-Chrome拡張機能として動作するプロジェクトです。
+かわいいうさぎが、ネガティブな文章を検知したらポジティブな文章に変えてくれるChrome拡張機能です
+
+## プロダクト紹介
+デモ動画：https://www.youtube.com/watch?v=w4L3FMTnRj8
+
+<img src="assets/キャンセラビットタイトル.png" alt="キャンセラビットタイトル" width="480">
+<img src="assets/キャンセラビット紹介.png" alt="キャンセラビット紹介" width="480">
 
 ## 使用テンプレート
 
