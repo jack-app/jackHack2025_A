@@ -6,7 +6,7 @@ const ai = new GoogleGenAI({
 
 export async function detectNegative(text: string): Promise<boolean> {
   const req = {
-    model: 'gemini-2.0-flash',
+    model: 'gemini-3.1-flash-lite-preview',
     contents: `「${text}」がネガティブな文かどうか判断して、ネガティブなら1を、そうでないなら0を出力してください。必ず1か0のどちらかを出力してください。`,
   };
 

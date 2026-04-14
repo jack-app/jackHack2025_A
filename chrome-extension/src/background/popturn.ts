@@ -7,7 +7,7 @@ const ai = new GoogleGenAI({
 export async function popturn(text: string): Promise<string> {
   // リクエストを組み立て
   const req = {
-    model: 'gemini-2.0-flash',
+    model: 'gemini-3.1-flash-lite-preview',
     contents: `「${text}」を同じくらいな文字数のポジティブな文章に変換して語尾を"ﾋﾟｮﾝ"にしてください。必ず変換後の文章のみを返してください。`,
   };
 
